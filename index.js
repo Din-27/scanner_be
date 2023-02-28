@@ -2,8 +2,6 @@ var express = require('express')
 var app = express()
 var port = process.env.PORT || 3000
 var bodyParser = require('body-parser');
-var http = require("http")
-const server = http.createServer(app);
 var cors = require('cors');
 require('dotenv').config()
 app.use(bodyParser.json());
@@ -19,7 +17,7 @@ const { product } = require('./collections');
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: path.join(__dirname, 'public') });
+    res.sendFile('../public/index.html');
 })
 
 app.post('/create', async (req, res) => {
