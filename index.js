@@ -5,17 +5,17 @@ var bodyParser = require('body-parser');
 var http = require("http")
 const server = http.createServer(app);
 var cors = require('cors');
-const { product } = require('../collections');
 require('dotenv').config()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-const { db } = require('../db/db.config');
+const { db } = require('./db/db.config');
 var jwt = require('jsonwebtoken');
 var QRCode = require('qrcode')
 
 const serverless = require("serverless-http");
+const { product } = require('./collections');
 
 
 app.post('/create', async (req, res) => {
