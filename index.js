@@ -81,3 +81,5 @@ app.get('/verify-scan/:hash', async (req, res) => {
 
 server.listen(port, () =>
     console.log(`test:${port} || ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
+
+module.exports = app
