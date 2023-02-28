@@ -4,9 +4,9 @@ const path = require('path');
 var jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser');
 var QRCode = require('qrcode');
-const { product } = require('../../scanner/collections');
+const { product } = require('../collections');
 var cors = require('cors');
-const { db } = require('../../scanner/db/db.config');
+const { db } = require('../db/db.config');
 
 product
 app.use(bodyParser.json());
