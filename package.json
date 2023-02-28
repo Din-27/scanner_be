@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "./node_modules/.bin/netlify-lambda serve src",
+    "build": "./node_modules/.bin/netlify-lambda build src"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.0",
     "md5": "^2.3.0",
     "mysql": "^2.18.1",
+    "netlify-lambda": "^2.0.16",
     "qrcode": "^1.5.1",
     "xmldom": "^0.6.0"
   }

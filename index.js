@@ -5,20 +5,21 @@ var bodyParser = require('body-parser');
 var http = require("http")
 const server = http.createServer(app);
 var cors = require('cors');
-const { product } = require('./collections');
+const { product } = require('../collections');
 require('dotenv').config()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+const router = express.Router();
 
-const { db } = require('./db/db.config');
+const { db } = require('../db/db.config');
 var jwt = require('jsonwebtoken');
 var QRCode = require('qrcode')
 
+const serverless = require("serverless-http");
 
 
-
-app.post('/create', async (req, res) => {
+router.post('/create', async (req, res) => {
     try {
         console.log(req.body);
         const { nama_product, status_scan } = req.body
@@ -33,7 +34,7 @@ app.post('/create', async (req, res) => {
     }
 });
 
-app.get('/scanimage', async (req, res) => {
+router.get('/scanimage', async (req, res) => {
     let product = [], code128 = []
     const getProductDetail = await db.collection('products').get()
     if (getProductDetail.docs.length > 0) {
@@ -51,7 +52,7 @@ app.get('/scanimage', async (req, res) => {
     })
 })
 
-app.get('/batal-scan/:params', async (req, res) => {
+router.get('/batal-scan/:params', async (req, res) => {
     try {
         let docRef = product.doc(req.params.params)
         await docRef.update({
@@ -64,7 +65,7 @@ app.get('/batal-scan/:params', async (req, res) => {
     }
 })
 
-app.get('/verify-scan/:hash', async (req, res) => {
+router.get('/verify-scan/:hash', async (req, res) => {
     console.log(req.params)
     try {
         var decoded = jwt.verify(req.params.hash, 'productScanner')
@@ -80,5 +81,8 @@ app.get('/verify-scan/:hash', async (req, res) => {
     }
 })
 
-server.listen(port, () =>
-    console.log(`test:${port} || ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
+// server.listen(port, () =>
+//     console.log(`test:${port} || ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
+app.use(`/.netlify/functions/api`, router);
+module.exports = app;
+module.exports.handler = serverless(app);
