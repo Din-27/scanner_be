@@ -14,7 +14,6 @@ const { db } = require('./db/db.config');
 var jwt = require('jsonwebtoken');
 var QRCode = require('qrcode')
 
-const serverless = require("serverless-http");
 const { product } = require('./collections');
 
 
