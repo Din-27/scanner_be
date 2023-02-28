@@ -16,6 +16,11 @@ var QRCode = require('qrcode')
 
 const { product } = require('./collections');
 
+app.use(express.static('public'))
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: path.join(__dirname, 'public') });
+})
 
 app.post('/create', async (req, res) => {
     try {
