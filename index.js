@@ -19,13 +19,13 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') });
 })
 
-app.post('/create', async (req, res) => {
+app.get('/create/:nama_product', async (req, res) => {
     try {
         console.log(req.body);
-        const { nama_product, status_scan } = req.body
+        const { nama_product } = req.params
         const dataJson = {
             nama_product,
-            status_scan
+            status_scan: 'belum_discan'
         };
         const response = await product.doc(nama_product).set(dataJson);
         res.send(response);
