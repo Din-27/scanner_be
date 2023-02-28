@@ -1,0 +1,24 @@
+[debug] [2023-02-28T06:39:34.212Z] ----------------------------------------------------------------------
+[debug] [2023-02-28T06:39:34.213Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\IT02\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-02-28T06:39:34.214Z] CLI Version:   11.24.0
+[debug] [2023-02-28T06:39:34.214Z] Platform:      win32
+[debug] [2023-02-28T06:39:34.214Z] Node Version:  v18.12.1
+[debug] [2023-02-28T06:39:34.215Z] Time:          Tue Feb 28 2023 13:39:34 GMT+0700 (Indochina Time)
+[debug] [2023-02-28T06:39:34.215Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-02-28T06:39:34.274Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-02-28T06:39:34.274Z] > authorizing via signed-in user (herdiyanafirmansyah27@gmail.com)
+[debug] [2023-02-28T06:39:34.274Z] [iam] checking project test-777444 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-02-28T06:39:34.276Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/test-777444:testIamPermissions [none]
+[debug] [2023-02-28T06:39:34.276Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/test-777444:testIamPermissions x-goog-quota-user=projects/test-777444
+[debug] [2023-02-28T06:39:34.276Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/test-777444:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-02-28T06:39:35.347Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/test-777444:testIamPermissions 200
+[debug] [2023-02-28T06:39:35.347Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/test-777444:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-02-28T06:39:35.348Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/test-777444 [none]
+[debug] [2023-02-28T06:39:35.998Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/test-777444 200
+[debug] [2023-02-28T06:39:35.998Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/test-777444 {"projectId":"test-777444","projectNumber":"64802711423","displayName":"test","name":"projects/test-777444","resources":{"hostingSite":"test-777444","realtimeDatabaseInstance":"test-777444-default-rtdb"},"state":"ACTIVE","etag":"1_18242dd2-d024-4dba-8f0b-3d3c05ae16fb"}
+[debug] [2023-02-28T06:39:37.903Z] Error: Epic fail.
+    at prepareFrameworks (C:\Users\IT02\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\index.js:243:19)
+    at async deploy (C:\Users\IT02\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:53:13)
+[error] 
+[error] Error: An unexpected error has occurred.
