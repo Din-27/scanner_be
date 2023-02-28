@@ -5,17 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "spack && npm run static && npm run prerender",
-    "static": "cp static/* dist",
-    "prerender": "ts-node tools/prerender.ts"
+    "start": "nodemon index.js"
   },
-  "directories": {
-    "serve": "dist"
-  },
-  "files": [
-    "dist",
-    "index.js"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
