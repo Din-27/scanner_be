@@ -48,6 +48,7 @@ app.get('/scanimage', async (req, res) => {
         res.send(`
         <div>
             <img src=${url} alt="">
+            <h1>${url}</h1>
         <div>
         `)
     })
