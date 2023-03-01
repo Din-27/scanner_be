@@ -19,6 +19,17 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') });
 })
 
+app.get('/data', async (req, res) => {
+    let product = []
+    const getProductDetail = await db.collection('products').get()
+    if (getProductDetail.docs.length > 0) {
+        for (const user of getProductDetail.docs) {
+            product.push(user.data())
+        }
+    }
+    return res.send(product);
+})
+
 app.get('/create/:nama_product', async (req, res) => {
     try {
         console.log(req.body);
@@ -34,21 +45,15 @@ app.get('/create/:nama_product', async (req, res) => {
     }
 });
 
-app.get('/scanimage', async (req, res) => {
-    let product = [], code128 = []
-    const getProductDetail = await db.collection('products').get()
-    if (getProductDetail.docs.length > 0) {
-        for (const user of getProductDetail.docs) {
-            product.push(user.data())
-        }
-    }
-    var token = jwt.sign({ nama_product: product[0].nama_product }, 'productScanner');
+app.get('/scanimage/:nama_product', async (req, res) => {
+    const { nama_product } = req.params
+    var token = jwt.sign({ nama_product: nama_product }, 'productScanner');
     QRCode.toDataURL(token, function (err, url) {
-        if(err) throw err
+        if (err) throw err
         res.send(`
         <div>
             <img src=${url} alt="">
-            <h1>${url}</h1>
+            <h1>${nama_product}</h1>
         <div>
         `)
     })
@@ -85,6 +90,6 @@ app.get('/verify-scan/:hash', async (req, res) => {
     }
 })
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 8000);
 
 module.exports = app;
