@@ -48,14 +48,14 @@ app.get('/create/:nama_product', async (req, res) => {
 app.get('/scanimage/:nama_product', async (req, res) => {
     const { nama_product } = req.params
     var token = jwt.sign({ nama_product: nama_product }, 'productScanner');
-    res.send(token)
+    res.send(req.params)
 })
 
 app.get('/batal-scan/:hash', async (req, res) => {
     try {
-        var decoded = jwt.verify(req.params.hash, 'productScanner')
+        // var decoded = jwt.verify(req.params.hash, 'productScanner')
         console.log(decoded)
-        let docRef = product.doc(decoded.nama_product)
+        let docRef = product.doc(req.params.hash)
         await docRef.update({
             status_scan: 'belum discan'
         })
@@ -71,7 +71,7 @@ app.get('/verify-scan/:hash', async (req, res) => {
     try {
         var decoded = jwt.verify(req.params.hash, 'productScanner')
         console.log(decoded)
-        let docRef = product.doc(decoded.nama_product)
+        let docRef = product.doc(req.params.hash)
         await docRef.update({
             status_scan: 'sudah discan'
         })
