@@ -43,7 +43,8 @@ app.get('/scanimage', async (req, res) => {
         }
     }
     var token = jwt.sign({ nama_product: product[0].nama_product }, 'productScanner');
-    QRCode.toDataURL(`http://localhost:8080/scan/${token}`, function (err, url) {
+    QRCode.toDataURL(token, function (err, url) {
+        if(err) throw err
         res.send(`
         <div>
             <img src=${url} alt="">
@@ -52,9 +53,11 @@ app.get('/scanimage', async (req, res) => {
     })
 })
 
-app.get('/batal-scan/:params', async (req, res) => {
+app.get('/batal-scan/:hash', async (req, res) => {
     try {
-        let docRef = product.doc(req.params.params)
+        var decoded = jwt.verify(req.params.hash, 'productScanner')
+        console.log(decoded)
+        let docRef = product.doc(decoded.nama_product)
         await docRef.update({
             status_scan: 'belum discan'
         })
