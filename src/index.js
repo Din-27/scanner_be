@@ -48,15 +48,7 @@ app.get('/create/:nama_product', async (req, res) => {
 app.get('/scanimage/:nama_product', async (req, res) => {
     const { nama_product } = req.params
     var token = jwt.sign({ nama_product: nama_product }, 'productScanner');
-    QRCode.toDataURL(token, function (err, url) {
-        if (err) throw err
-        res.send(`
-        <div>
-            <img src=${url} alt="">
-            <h1>${nama_product}</h1>
-        <div>
-        `)
-    })
+    res.send(token)
 })
 
 app.get('/batal-scan/:hash', async (req, res) => {
