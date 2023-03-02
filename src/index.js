@@ -32,30 +32,63 @@ app.get('/data', async (req, res) => {
 
 app.get('/create/:nama_product', async (req, res) => {
     try {
-        console.log(req.body);
         const { nama_product } = req.params
+
+        let products = []
+        const getProductDetail = await db.collection('products').get()
+        if (getProductDetail.docs.length > 0) {
+            for (const user of getProductDetail.docs) {
+                products.push(user.data())
+            }
+        }
+
+        const date = new Date()
+        const generateKode = date.toLocaleDateString().replace(/\//gm, '')
+        const kode = `KB${generateKode}${products.length + 1}`
         const dataJson = {
             nama_product,
-            status_scan: 'belum_discan'
+            kode_product: kode,
+            status_scan: 'belum discan'
         };
-        const response = await product.doc(nama_product).set(dataJson);
+        console.log(dataJson)
+        const response = await product.doc(kode).set(dataJson);
         res.send(response);
     } catch (error) {
         res.send(error);
     }
 });
 
-app.get('/scanimage/:nama_product', async (req, res) => {
-    const { nama_product } = req.params
-    var token = jwt.sign({ nama_product: nama_product }, 'productScanner');
+app.get('/edit/:kode_product/:edited', async (req, res) => {
+    try {
+        const { kode_product, edited } = req.params
+        let docRef = product.doc(kode_product)
+        await docRef.update({ nama_product: edited })
+        res.send('sukses');
+    } catch (error) {
+        res.send(error.message);
+    }
+});
+
+app.get('/delete/:kode_product', async (req, res) => {
+    try {
+        const response = await product.doc(req.params.kode_product).delete();
+        res.send(response);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+app.get('/scanimage/:kode_product', async (req, res) => {
+    const { kode_product } = req.params
+    var token = jwt.sign({ kode_product: kode_product }, 'productScanner');
     res.send(req.params)
 })
 
-app.get('/batal-scan/:hash', async (req, res) => {
+app.get('/batal-scan/:kode_product', async (req, res) => {
     try {
         // var decoded = jwt.verify(req.params.hash, 'productScanner')
-        console.log(decoded)
-        let docRef = product.doc(req.params.hash)
+        // console.log(decoded)
+        let docRef = product.doc(req.params.kode_product)
         await docRef.update({
             status_scan: 'belum discan'
         })
@@ -66,12 +99,12 @@ app.get('/batal-scan/:hash', async (req, res) => {
     }
 })
 
-app.get('/verify-scan/:hash', async (req, res) => {
+app.get('/verify-scan/:kode_product', async (req, res) => {
     console.log(req.params)
     try {
-        var decoded = jwt.verify(req.params.hash, 'productScanner')
-        console.log(decoded)
-        let docRef = product.doc(req.params.hash)
+        // var decoded = jwt.verify(req.params.kode_product, 'productScanner')
+        // console.log(decoded)
+        let docRef = product.doc(req.params.kode_product)
         await docRef.update({
             status_scan: 'sudah discan'
         })
@@ -82,6 +115,6 @@ app.get('/verify-scan/:hash', async (req, res) => {
     }
 })
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 8000);
 
 module.exports = app;
